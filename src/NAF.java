@@ -4,9 +4,10 @@ import java.util.Arrays;
 public class NAF {
 
 	public static void main(String[] args) {
-		int a = 2927;
-		int[] b = toWNAF(a, 2);
+		int a = 410;
+		int[] b = toNAF(a);
 		System.out.println(Arrays.toString(b));
+		System.out.println(Integer.toBinaryString(a));
 //		System.out.println(a + "=>" + toINT(b));
 
 	}
@@ -83,5 +84,17 @@ public class NAF {
 		} else {
 			return d%num;
 		}
+	}
+	
+	public static int hammingWeight(int[] naf) {
+		int wt = 0;
+		
+		for(int i = 0; i < naf.length; i++) {
+			if(naf[i] != 0) {
+				wt++;
+			}
+		}
+		
+		return wt;
 	}
 }

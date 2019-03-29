@@ -33,7 +33,7 @@ public class ECC {
 				return "O Point";
 			}
 
-			return "(" + x + ", " + y + ")";
+			return "Time = " + factors[0] + ", Num of Add = " + factors[1] + ", Number of Doubles = " + factors[2] + ", Precomputation = " + factors[3] + ", Hamming Weight = " + factors[4];
 		}
 	}
 
@@ -59,32 +59,14 @@ public class ECC {
 //		System.out.println(curve.doubling(P));
 
 		int k = 410;
-//		
-		long before = new Date().getTime();
-		System.out.print("Naive Multiplication ==> (" + curve.NaiveMultiplication(P, k) + ")");
-		long after = new Date().getTime();
-		System.out.println("\t\t & \t Time taken = " + (after - before) + "ms");
-
-		before = new Date().getTime();
-		System.out.print("Binary Left To Right ==> (" + curve.BinaryLeftToRight(P, k) + ")");
-		after = new Date().getTime();
-		System.out.println("\t\t & \t Time taken = " + (after - before) + "ms");
-
-		before = new Date().getTime();
-		System.out.print("Binary Right To Left ==> (" + curve.BinaryRightToLeft(P, k) + ")");
-		after = new Date().getTime();
-		System.out.println("\t \t & \t Time taken = " + (after - before) + "ms");
-
-		before = new Date().getTime();
-		System.out.print("Binary Additon Subtraction ==> (" + curve.AdditionSubtraction(P, k) + ")");
-		after = new Date().getTime();
-		System.out.println("\t & \t Time taken = " + (after - before) + "ms");
-
-		System.out.println(curve.Windowed(P, k, 3));
 		
-		System.out.println(curve.MontgomeryLadder(P, k));
-		
-		System.out.println(curve.wNAF(P, k, 3));
+		System.out.println("Naive Multiplication ==> (" + curve.NaiveMultiplication(P, k) + ")");
+		System.out.println("Binary Left To Right ==> (" + curve.BinaryLeftToRight(P, k) + ")");
+		System.out.println("Binary Right To Left ==> (" + curve.BinaryRightToLeft(P, k) + ")");
+		System.out.println("Binary Additon Subtraction ==> (" + curve.AdditionSubtraction(P, k) + ")");
+		System.out.println("Windowed ==> (" + curve.Windowed(P, k, 3) + ")");
+		System.out.println("Montgomery Ladder ==> (" + curve.MontgomeryLadder(P, k) + ")");
+		System.out.println("wNAF ==> (" + curve.wNAF(P, k, 3) + ")");
 	}
 
 	public Point add(Point P, Point Q) throws Exception {
@@ -143,6 +125,8 @@ public class ECC {
 		
 		R.factors[0] = (int)(end - beg);
 		R.factors[1] = noa;
+		
+		System.out.println(Integer.bitCount(k));
 		R.factors[4] = Integer.bitCount(k);
 		return R;
 	}
@@ -200,22 +184,43 @@ public class ECC {
 		return Q;
 	}
 
+	
 	public Point AdditionSubtraction(Point P, int k) throws Exception {
+		
+		int noa = 0;
+		int nod = 0;
+		long beg = new Date().getTime();
+		
 		int[] naf = NAF.toNAF(k);
 		Point Q = new Point(P.x, P.y);
 		for (int i = 1; i < naf.length; i++) {
 			Q = doubling(Q);
+			nod++;
 			if (naf[i] == 1) {
 				Q = add(Q, P);
+				noa++;
 			} else if (naf[i] == -1) {
 				Point inv = new Point(P.x, -1 * P.y);
 				Q = add(Q, inv);
+				noa++;
 			}
 		}
+		
+		long end = new Date().getTime();
+		Q.factors[0] = (int)(end - beg);
+		Q.factors[1] = noa;
+		Q.factors[2] = nod;
+		Q.factors[4] = NAF.hammingWeight(naf);
+		
 		return Q;
 	}
 
+
 	public Point Windowed(Point P, int k, int w) throws Exception {
+		int noa = 0;
+		int nod = 0;
+		long beg = new Date().getTime();
+		
 		int size = (int) Math.pow(2, w);
 		Point[] precomputation = new Point[size];
 
@@ -241,17 +246,32 @@ public class ECC {
 		for (int i = 0; i < converted.length(); i++) {
 			for (int times = 0; times < w; times++) {
 				Q = doubling(Q);
+				nod++;
 			}
 			int val = Conversion.getNum(converted.charAt(i));
 			if (val > 0) {
 				Q = add(Q, precomputation[val]);
+				noa++;
 			}
 		}
+		
+		long end = new Date().getTime();
+		Q.factors[0] = (int)(end - beg);
+		Q.factors[1] = noa;
+		Q.factors[2] = nod;
+		Q.factors[3] = size;
+		Q.factors[4] = Integer.bitCount(k);
 
 		return Q;
 	}
+	
+
 
 	public Point wNAF(Point P, int k, int w) throws Exception{
+		int noa = 0;
+		int nod = 0;
+		long beg = new Date().getTime();
+		
 		//precomputation
 		int size = (int) Math.pow(2, w);
 		Point P2 = doubling(P);
@@ -270,42 +290,44 @@ public class ECC {
 		
 		for(int i = 0; i < wnaf.length; i++) {
 			Q = doubling(Q);
+			nod++;
 			if(wnaf[i] != 0) {
 				if(wnaf[i] > 0) {
 					Q = add(Q, precomputation[wnaf[i]]);
+					noa++;
 				} else {
 					int mod = -1 * wnaf[i];
 					Point temp = new Point(precomputation[mod].x, -1 * precomputation[mod].y);
 					Q = add(Q, temp);
+					noa++;
 				}
 			}
 		}
 		
+		long end = new Date().getTime();
+		Q.factors[0] = (int)(end - beg);
+		Q.factors[1] = noa;
+		Q.factors[2] = nod;
+		Q.factors[3] = size/2;
+		Q.factors[4] = NAF.hammingWeight(wnaf);
 		
 		return Q;
 	}
 	
+	
+
 	public Point MontgomeryLadder(Point P, int k) throws Exception{
+		int noa = 0;
+		int nod = 0;
+		long beg = new Date().getTime();
+		
 		Point R0 = new Point();
 		R0.infinity = true;
 		
 		Point R1 = new Point(P.x, P.y);
 		
 		
-		int temp = k;
-		int x = (int) (Math.pow(2, 30));
-		boolean start = false;
-		StringBuilder binary = new StringBuilder();
-		for (int i = 30; i >= 0; i--) {
-			if ((x & temp) == x) {
-				start = true;
-				binary.append(1);
-			} else if (start) {
-				binary.append(0);
-			}
-			x = x >> 1;
-		}
-
+		String binary = Integer.toBinaryString(k);
 		
 		for (int i = 0; i < binary.length(); i++) {
 			if(binary.charAt(i) == '0') {
@@ -315,8 +337,15 @@ public class ECC {
 				R0 = add(R0, R1);
 				R1 = doubling(R1);
 			}
-			
+			noa++;
+			nod++;
 		}
+		
+		long end = new Date().getTime();
+		R0.factors[0] = (int)(end - beg);
+		R0.factors[1] = noa;
+		R0.factors[2] = nod;
+		R0.factors[4] = Integer.bitCount(k);
 		
 		return R0;
 		
