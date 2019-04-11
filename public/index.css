@@ -1,0 +1,44 @@
+body{
+    margin: 0;
+    padding: 0;
+    background: url(background.jpg);
+    /* background-size: cover;
+    background-position: center; */
+    font-family: sans-serif;
+    box-sizing: border-box
+}
+
+h1{
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+    font-size: 40px;
+}
+
+
+input[type="submit"], button
+{
+    border: none;
+    outline: none;
+    height: 40px;
+    background: purple;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 20px;
+    width: 40%;
+}
+input[type="submit"]:hover, button:hover
+{
+    cursor: pointer;
+    background: #39dc79;
+    color: #000;
+}
+
+input[type="text"], input[type="password"], input[type="email"]{
+    width: 40%
+}
+
+#divbuttons, #signinform, #signupform{
+    transform: translate(30%,200px);
+    margin: auto;
+}

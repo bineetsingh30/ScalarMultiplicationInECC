@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="jquery.js"></script>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+    
+    <title>Vacation Image Search</title>
+</head>
+<body>
+    <div id="divbuttons">
+        <button id="signin">Signin</button><br><br>
+        <button id="signup">Signup</button>
+    </div>
+    
+    <form id="signinform" action="/signin" method="post" style="display: none;">
+        <input type="email" id="email" name="email" required placeholder="Email"><br>
+        <input type="password" id="password" name="password" required placeholder="Password"><br><br>
+        <input type="submit" value="Signin">
+    </form>
+
+    <form id="signupform" action="/signup" method="post" style="display: none;">
+        <input type="text" id="name" name="name" required placeholder="Full name"><br>
+        <input type="email" id="newemail" name="newemail" required placeholder="Email"><br>
+        <input type="password" id="newpassword" name="newpassword" required placeholder="Password"><br><br>
+        <input type="submit" value="Signup">
+    </form>
+</body>
+</html>

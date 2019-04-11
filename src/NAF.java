@@ -4,8 +4,8 @@ import java.util.Arrays;
 public class NAF {
 
 	public static void main(String[] args) {
-		int a = 410;
-		int[] b = toNAF(a);
+		int a = Integer.MAX_VALUE;
+		int[] b = toWNAF(a,3);
 		System.out.println(Arrays.toString(b));
 		System.out.println(Integer.toBinaryString(a));
 //		System.out.println(a + "=>" + toINT(b));
@@ -13,12 +13,12 @@ public class NAF {
 	}
 
 	public static int[] toNAF(int k) {
-		int x = k;
+		long x = k;
 		int i = 0;
 		ArrayList<Integer> rv = new ArrayList<Integer>();
 		while (x > 0) {
 			if (x % 2 == 1) {
-				int temp = 2 - (x % 4);
+				int temp = (2 - (int)(x % 4));
 				rv.add(temp);
 				x = x - temp;
 			} else {
@@ -51,12 +51,12 @@ public class NAF {
 	}
 
 	public static int[] toWNAF(int k, int w) {
-		int d = k;
+		long d = k;
 		int i = 0;
 		ArrayList<Integer> rv = new ArrayList<Integer>();
 		while (d > 0) {
 			if (d % 2 == 1) {
-				int temp = mods(d, w);
+				int temp = (int)mods(d, w);
 				rv.add(temp);
 				d = d - temp;
 			} else {
@@ -75,14 +75,14 @@ public class NAF {
 		return naf;
 	}
 
-	private static int mods(int d, int w) {
+	private static long mods(long d, int w) {
 		int num = (int)(Math.pow(2, w));
 		int numby2 = num / 2;
 		
 		if((d%num) >= numby2) {
-			return (d%num) - num;
+			return ((d%num) - num);
 		} else {
-			return d%num;
+			return (d%num);
 		}
 	}
 	

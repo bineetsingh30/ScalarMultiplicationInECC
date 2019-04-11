@@ -5,8 +5,8 @@ public class Conversion {
 		System.out.println(convertToBase(282, 2));
 	}
 
-	public static String convertToBase(int d, int db) {
-		int rem = 0;
+	public static String convertToBase(long d, int db) {
+		long rem = 0;
 		StringBuilder rv = new StringBuilder("");
 		while (d != 0) {
 			rem = d % db;
@@ -18,7 +18,7 @@ public class Conversion {
 		return rv.toString();
 	}
 
-	private static char getChar(int num) {
+	private static char getChar(long num) {
 		if (num >= 0 && num <= 9) 
 	        return (char)(num + '0'); 
 	    else

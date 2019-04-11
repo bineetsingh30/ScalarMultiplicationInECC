@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Date;
 
 public class ECC {
@@ -33,7 +34,8 @@ public class ECC {
 				return "O Point";
 			}
 
-			return "Time = " + factors[0] + ", Num of Add = " + factors[1] + ", Number of Doubles = " + factors[2] + ", Precomputation = " + factors[3] + ", Hamming Weight = " + factors[4];
+//			return "Time = " + factors[0] + ", Num of Add = " + factors[1] + ", Number of Doubles = " + factors[2] + ", Precomputation = " + factors[3] + ", Hamming Weight = " + factors[4];
+			return "(" +x+","+y+  ")"+ Arrays.toString(factors); 
 		}
 	}
 
@@ -46,27 +48,49 @@ public class ECC {
 	public static void main(String[] args) throws Exception {
 		ECC curve = new ECC(4, 3, 607);
 		Point P = new Point(234, 121);
-//		Point Q = new Point(10,13);
-//		Point R = new Point(234,121);
-
-//		System.out.println(curve.add(P,Q));
-//		System.out.println(curve.doubling(Q));
-//		System.out.println(curve.add(R,R));
-//		
-//		System.out.println(Integer.MAX_VALUE);
-//		System.out.println(Math.pow(2, 31));
-
-//		System.out.println(curve.doubling(P));
-
-		int k = 410;
+		int k = 99999999;
 		
-		System.out.println("Naive Multiplication ==> (" + curve.NaiveMultiplication(P, k) + ")");
-		System.out.println("Binary Left To Right ==> (" + curve.BinaryLeftToRight(P, k) + ")");
-		System.out.println("Binary Right To Left ==> (" + curve.BinaryRightToLeft(P, k) + ")");
-		System.out.println("Binary Additon Subtraction ==> (" + curve.AdditionSubtraction(P, k) + ")");
-		System.out.println("Windowed ==> (" + curve.Windowed(P, k, 3) + ")");
-		System.out.println("Montgomery Ladder ==> (" + curve.MontgomeryLadder(P, k) + ")");
-		System.out.println("wNAF ==> (" + curve.wNAF(P, k, 3) + ")");
+//		System.out.println("Naive Multiplication ==> "+ curve.NaiveMultiplication(P, k));
+		System.out.println("Binary Left To Right ==> " + curve.BinaryLeftToRight(P, k));
+		System.out.println("Binary Right To Left ==> " + curve.BinaryRightToLeft(P, k));
+		System.out.println("Binary Additon Subtraction ==> " + curve.AdditionSubtraction(P, k));
+		System.out.println("Windowed ==> " + curve.Windowed(P, k, 4));
+		System.out.println("Montgomery Ladder ==> " + curve.MontgomeryLadder(P, k));
+		System.out.println("wNAF ==> " + curve.wNAF(P, k, 4));
+
+	
+		/*
+		 * google.charts.load('current', {packages: ['corechart', 'bar']});
+google.charts.setOnLoadCallback(drawBarColors);
+
+function drawBarColors() {
+      var data = google.visualization.arrayToDataTable([
+        ['Algo', 'Addition Operations'],
+        ['Binary Left to Right Method', 18],
+        ['Binary Right to Left Method', 19],
+        ['Addition Subtraction Method', 6],
+        ['Windowed Method', 8],
+        ['Montgomery Ladder Method', 27],
+        ['wNAF Method', 5]
+      ]);
+
+      var options = {
+
+        chartArea: {width: '40%'},
+        colors: ['#b0120a'],
+        hAxis: {
+          title: 'Number of addition operations',
+          minValue: 0
+        },
+        vAxis: {
+          title: 'Algorithm'
+        }
+      };
+      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+		 */
+	
 	}
 
 	public Point add(Point P, Point Q) throws Exception {
@@ -183,7 +207,6 @@ public class ECC {
 		
 		return Q;
 	}
-
 	
 	public Point AdditionSubtraction(Point P, int k) throws Exception {
 		
@@ -214,7 +237,6 @@ public class ECC {
 		
 		return Q;
 	}
-
 
 	public Point Windowed(Point P, int k, int w) throws Exception {
 		int noa = 0;
@@ -265,8 +287,6 @@ public class ECC {
 		return Q;
 	}
 	
-
-
 	public Point wNAF(Point P, int k, int w) throws Exception{
 		int noa = 0;
 		int nod = 0;
@@ -314,8 +334,6 @@ public class ECC {
 		return Q;
 	}
 	
-	
-
 	public Point MontgomeryLadder(Point P, int k) throws Exception{
 		int noa = 0;
 		int nod = 0;
