@@ -19,7 +19,7 @@ app.post('/api/getdata',(req,res)=>{
         if (err) {
             console.log('error', err)
          } else {
-            console.log("Result => " + data)
+            // console.log("Result => " + data)
             let result = data.split(" ")
             // console.log(result)
 

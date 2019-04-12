@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Date;
 
 public class ECC {
@@ -180,6 +179,7 @@ public class ECC {
 		Q.factors[0] = (int) (end - beg);
 		Q.factors[1] = noa;
 		Q.factors[2] = nod;
+		Q.factors[3] = 1;
 		Q.factors[4] = Integer.bitCount(k);
 
 		return Q;
@@ -207,6 +207,7 @@ public class ECC {
 		Q.factors[0] = (int) (end - beg);
 		Q.factors[1] = noa;
 		Q.factors[2] = nod;
+		Q.factors[3] = 1;
 		Q.factors[4] = Integer.bitCount(k);
 
 		return Q;
@@ -237,6 +238,7 @@ public class ECC {
 		Q.factors[0] = (int) (end - beg);
 		Q.factors[1] = noa;
 		Q.factors[2] = nod;
+		Q.factors[3] = 1;
 		Q.factors[4] = NAF.hammingWeight(naf);
 
 		return Q;
@@ -365,6 +367,7 @@ public class ECC {
 		R0.factors[0] = (int) (end - beg);
 		R0.factors[1] = noa;
 		R0.factors[2] = nod;
+		R0.factors[3] = 1;
 		R0.factors[4] = Integer.bitCount(k);
 
 		return R0;
