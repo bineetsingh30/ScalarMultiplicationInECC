@@ -15,7 +15,8 @@ app.post('/api/getdata',(req,res)=>{
     let y = req.body.py;
 
     const cmd=require('node-cmd');
-    cmd.get(`java -cp "/home/bineet/Downloads/Major/Scalar Multiplication/bin/" ECC ${a} ${b} ${p} ${k} ${x} ${y}`, (err, data, strderr) => {
+    console.log(__dirname)
+    cmd.get(`java -cp "${__dirname}/bin/" ECC ${a} ${b} ${p} ${k} ${x} ${y}`, (err, data, strderr) => {
         if (err) {
             console.log('error', err)
          } else {
