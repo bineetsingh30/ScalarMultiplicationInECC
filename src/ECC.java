@@ -71,7 +71,7 @@ public class ECC {
 		ECC curve = new ECC(a, b, p);
 		Point P = new Point(x, y);
 
-//		System.out.println("Naive Multiplication ==> "+ curve.NaiveMultiplication(P, k));
+		System.out.print(curve.NaiveMultiplication(P, k));
 		System.out.print(curve.BinaryLeftToRight(P, k));
 		System.out.print(curve.BinaryRightToLeft(P, k));
 		System.out.print(curve.AdditionSubtraction(P, k));
@@ -156,8 +156,6 @@ public class ECC {
 
 		R.factors[0] = (int) (end - beg);
 		R.factors[1] = noa;
-
-		System.out.println(Integer.bitCount(k));
 		R.factors[4] = Integer.bitCount(k);
 		return R;
 	}

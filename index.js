@@ -24,13 +24,32 @@ app.post('/api/call_function',(req,res)=>{
          } else {
             console.log("Result => " + data)
             let result = data.split(" ")
-            console.log(result)
+            // console.log(result)
 
-            for(r of result){
-                
-            }
+            //create arrays for each attribute
+            let time = [];
+            let adds = [];
+            let doubles = [];
+            let precomputations = [];
+            let hammingwt = [];
             
+            for(let i = 0; i < result.length - 1; i+=5){
+                time.push(result[i])
+                adds.push(result[i+1])
+                doubles.push(result[i+2])
+                precomputations.push(result[i+3])
+                hammingwt.push(result[i+4])
+            }
+
+            console.log(time)
+            console.log(adds)
+            console.log(doubles)
+            console.log(precomputations)
+            console.log(hammingwt)            
         }
+
+        //call google api for graph and create a graphs page and return that page
+        
     });
 
 
