@@ -11,14 +11,11 @@ public class ECC {
 		int y;
 		boolean infinity;
 		/*
-		 *[0] = time
-		 *[1] = number of adds
-		 *[2] = number of doubles
-		 *[3] = precomputation 
-		 *[4] = hamming weight
+		 * [0] = time [1] = number of adds [2] = number of doubles [3] = precomputation
+		 * [4] = hamming weight
 		 */
 		int[] factors = new int[5];
-		
+
 		public Point(int p1, int p2) {
 			x = p1;
 			y = p2;
@@ -35,10 +32,18 @@ public class ECC {
 			}
 
 //			return "Time = " + factors[0] + ", Num of Add = " + factors[1] + ", Number of Doubles = " + factors[2] + ", Precomputation = " + factors[3] + ", Hamming Weight = " + factors[4];
-			return "(" +x+","+y+  ")"+ Arrays.toString(factors); 
+			return printArray(factors);
 		}
 	}
 
+	private static String printArray(int[] arr) {
+		StringBuilder rv = new StringBuilder("");
+		for(int i = 0; i < arr.length; i++) {
+			rv.append(arr[i]+ " ");
+		}
+		return rv.toString();
+	}
+	
 	public ECC(int a, int b, int p) {
 		this.a = a;
 		this.b = b;
@@ -46,51 +51,53 @@ public class ECC {
 	}
 
 	public static void main(String[] args) throws Exception {
-		ECC curve = new ECC(4, 3, 607);
-		Point P = new Point(234, 121);
-		int k = 99999999;
-		
-//		System.out.println("Naive Multiplication ==> "+ curve.NaiveMultiplication(P, k));
-		System.out.println("Binary Left To Right ==> " + curve.BinaryLeftToRight(P, k));
-		System.out.println("Binary Right To Left ==> " + curve.BinaryRightToLeft(P, k));
-		System.out.println("Binary Additon Subtraction ==> " + curve.AdditionSubtraction(P, k));
-		System.out.println("Windowed ==> " + curve.Windowed(P, k, 4));
-		System.out.println("Montgomery Ladder ==> " + curve.MontgomeryLadder(P, k));
-		System.out.println("wNAF ==> " + curve.wNAF(P, k, 4));
 
-	
+		int a = 4;
+		int b = 3;
+		int p = 607;
+		int x = 234;
+		int y = 121;
+		int k = 407;
+
+		if (args.length == 6) {
+			a = Integer.parseInt(args[0]);
+			b = Integer.parseInt(args[1]);
+			p = Integer.parseInt(args[2]);
+			k = Integer.parseInt(args[3]);
+			x = Integer.parseInt(args[4]);
+			y = Integer.parseInt(args[5]);
+		}
+		// a = 4, b = 3, p = 607, x = 234, y = 121
+		ECC curve = new ECC(a, b, p);
+		Point P = new Point(x, y);
+
+//		System.out.println("Naive Multiplication ==> "+ curve.NaiveMultiplication(P, k));
+		System.out.print(curve.BinaryLeftToRight(P, k));
+		System.out.print(curve.BinaryRightToLeft(P, k));
+		System.out.print(curve.AdditionSubtraction(P, k));
+		System.out.print(curve.Windowed(P, k, 4));
+		System.out.print(curve.MontgomeryLadder(P, k));
+		System.out.print(curve.wNAF(P, k, 4));
+
 		/*
 		 * google.charts.load('current', {packages: ['corechart', 'bar']});
-google.charts.setOnLoadCallback(drawBarColors);
-
-function drawBarColors() {
-      var data = google.visualization.arrayToDataTable([
-        ['Algo', 'Addition Operations'],
-        ['Binary Left to Right Method', 18],
-        ['Binary Right to Left Method', 19],
-        ['Addition Subtraction Method', 6],
-        ['Windowed Method', 8],
-        ['Montgomery Ladder Method', 27],
-        ['wNAF Method', 5]
-      ]);
-
-      var options = {
-
-        chartArea: {width: '40%'},
-        colors: ['#b0120a'],
-        hAxis: {
-          title: 'Number of addition operations',
-          minValue: 0
-        },
-        vAxis: {
-          title: 'Algorithm'
-        }
-      };
-      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
-    }
+		 * google.charts.setOnLoadCallback(drawBarColors);
+		 * 
+		 * function drawBarColors() { var data = google.visualization.arrayToDataTable([
+		 * ['Algo', 'Addition Operations'], ['Binary Left to Right Method', 18],
+		 * ['Binary Right to Left Method', 19], ['Addition Subtraction Method', 6],
+		 * ['Windowed Method', 8], ['Montgomery Ladder Method', 27], ['wNAF Method', 5]
+		 * ]);
+		 * 
+		 * var options = {
+		 * 
+		 * chartArea: {width: '40%'}, colors: ['#b0120a'], hAxis: { title: 'Number of
+		 * addition operations', minValue: 0 }, vAxis: { title: 'Algorithm' } }; var
+		 * chart = new
+		 * google.visualization.BarChart(document.getElementById('chart_div'));
+		 * chart.draw(data, options); }
 		 */
-	
+
 	}
 
 	public Point add(Point P, Point Q) throws Exception {
@@ -146,10 +153,10 @@ function drawBarColors() {
 		}
 
 		long end = new Date().getTime();
-		
-		R.factors[0] = (int)(end - beg);
+
+		R.factors[0] = (int) (end - beg);
 		R.factors[1] = noa;
-		
+
 		System.out.println(Integer.bitCount(k));
 		R.factors[4] = Integer.bitCount(k);
 		return R;
@@ -170,14 +177,13 @@ function drawBarColors() {
 				noa++;
 			}
 		}
-		
+
 		long end = new Date().getTime();
-		Q.factors[0] = (int)(end - beg);
+		Q.factors[0] = (int) (end - beg);
 		Q.factors[1] = noa;
 		Q.factors[2] = nod;
 		Q.factors[4] = Integer.bitCount(k);
 
-		
 		return Q;
 	}
 
@@ -198,22 +204,22 @@ function drawBarColors() {
 			nod++;
 			N = doubling(N);
 		}
-		
+
 		long end = new Date().getTime();
-		Q.factors[0] = (int)(end - beg);
+		Q.factors[0] = (int) (end - beg);
 		Q.factors[1] = noa;
 		Q.factors[2] = nod;
 		Q.factors[4] = Integer.bitCount(k);
-		
+
 		return Q;
 	}
-	
+
 	public Point AdditionSubtraction(Point P, int k) throws Exception {
-		
+
 		int noa = 0;
 		int nod = 0;
 		long beg = new Date().getTime();
-		
+
 		int[] naf = NAF.toNAF(k);
 		Point Q = new Point(P.x, P.y);
 		for (int i = 1; i < naf.length; i++) {
@@ -228,13 +234,13 @@ function drawBarColors() {
 				noa++;
 			}
 		}
-		
+
 		long end = new Date().getTime();
-		Q.factors[0] = (int)(end - beg);
+		Q.factors[0] = (int) (end - beg);
 		Q.factors[1] = noa;
 		Q.factors[2] = nod;
 		Q.factors[4] = NAF.hammingWeight(naf);
-		
+
 		return Q;
 	}
 
@@ -242,7 +248,7 @@ function drawBarColors() {
 		int noa = 0;
 		int nod = 0;
 		long beg = new Date().getTime();
-		
+
 		int size = (int) Math.pow(2, w);
 		Point[] precomputation = new Point[size];
 
@@ -276,9 +282,9 @@ function drawBarColors() {
 				noa++;
 			}
 		}
-		
+
 		long end = new Date().getTime();
-		Q.factors[0] = (int)(end - beg);
+		Q.factors[0] = (int) (end - beg);
 		Q.factors[1] = noa;
 		Q.factors[2] = nod;
 		Q.factors[3] = size;
@@ -286,33 +292,32 @@ function drawBarColors() {
 
 		return Q;
 	}
-	
-	public Point wNAF(Point P, int k, int w) throws Exception{
+
+	public Point wNAF(Point P, int k, int w) throws Exception {
 		int noa = 0;
 		int nod = 0;
 		long beg = new Date().getTime();
-		
-		//precomputation
+
+		// precomputation
 		int size = (int) Math.pow(2, w);
 		Point P2 = doubling(P);
 		Point[] precomputation = new Point[size];
-		
+
 		precomputation[1] = new Point(P.x, P.y);
-		
-		for(int i = 3; i < size; i+=2) {
+
+		for (int i = 3; i < size; i += 2) {
 			precomputation[i] = add(precomputation[i - 2], P2);
 		}
-		
-		
+
 		int[] wnaf = NAF.toWNAF(k, w);
 		Point Q = new Point();
 		Q.infinity = true;
-		
-		for(int i = 0; i < wnaf.length; i++) {
+
+		for (int i = 0; i < wnaf.length; i++) {
 			Q = doubling(Q);
 			nod++;
-			if(wnaf[i] != 0) {
-				if(wnaf[i] > 0) {
+			if (wnaf[i] != 0) {
+				if (wnaf[i] > 0) {
 					Q = add(Q, precomputation[wnaf[i]]);
 					noa++;
 				} else {
@@ -323,50 +328,49 @@ function drawBarColors() {
 				}
 			}
 		}
-		
+
 		long end = new Date().getTime();
-		Q.factors[0] = (int)(end - beg);
+		Q.factors[0] = (int) (end - beg);
 		Q.factors[1] = noa;
 		Q.factors[2] = nod;
-		Q.factors[3] = size/2;
+		Q.factors[3] = size / 2;
 		Q.factors[4] = NAF.hammingWeight(wnaf);
-		
+
 		return Q;
 	}
-	
-	public Point MontgomeryLadder(Point P, int k) throws Exception{
+
+	public Point MontgomeryLadder(Point P, int k) throws Exception {
 		int noa = 0;
 		int nod = 0;
 		long beg = new Date().getTime();
-		
+
 		Point R0 = new Point();
 		R0.infinity = true;
-		
+
 		Point R1 = new Point(P.x, P.y);
-		
-		
+
 		String binary = Integer.toBinaryString(k);
-		
+
 		for (int i = 0; i < binary.length(); i++) {
-			if(binary.charAt(i) == '0') {
+			if (binary.charAt(i) == '0') {
 				R1 = add(R0, R1);
 				R0 = doubling(R0);
-			}else {
+			} else {
 				R0 = add(R0, R1);
 				R1 = doubling(R1);
 			}
 			noa++;
 			nod++;
 		}
-		
+
 		long end = new Date().getTime();
-		R0.factors[0] = (int)(end - beg);
+		R0.factors[0] = (int) (end - beg);
 		R0.factors[1] = noa;
 		R0.factors[2] = nod;
 		R0.factors[4] = Integer.bitCount(k);
-		
+
 		return R0;
-		
+
 	}
-	
+
 }
