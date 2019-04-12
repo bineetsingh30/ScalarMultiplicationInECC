@@ -40,7 +40,6 @@ app.post('/api/getdata',(req,res)=>{
     console.log(v)
     if(v){
         const cmd=require('node-cmd');
-        console.log(__dirname)
         cmd.get(`java -cp "${__dirname}/bin/" ECC ${a} ${b} ${p} ${k} ${x} ${y}`, (err, data, strderr) => {
             if (err) {
                 console.log('error', err)

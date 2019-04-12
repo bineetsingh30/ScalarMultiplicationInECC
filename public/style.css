@@ -1,0 +1,17 @@
+.ecc_image {
+    width: 50%;
+    align-content: center;
+    margin-left: 80px
+}
+
+.ecc_content{
+    margin: 40px;
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.ecc_form{
+    margin: 40px 40px 40px 100px;
+    align-self: center
+}
