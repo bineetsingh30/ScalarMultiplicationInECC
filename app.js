@@ -40,7 +40,8 @@ app.post('/api/getdata',(req,res)=>{
     console.log(v)
     if(v){
         const cmd=require('node-cmd');
-        cmd.get(`java -cp "/home/bineet/Downloads/Major/Scalar Multiplication/bin/" ECC ${a} ${b} ${p} ${k} ${x} ${y}`, (err, data, strderr) => {
+        console.log(__dirname)
+        cmd.get(`java -cp "${__dirname}/bin/" ECC ${a} ${b} ${p} ${k} ${x} ${y}`, (err, data, strderr) => {
             if (err) {
                 console.log('error', err)
             } else {
@@ -64,10 +65,8 @@ app.post('/api/getdata',(req,res)=>{
                     attributes["hammingwt"].push(parseInt(result[i+4]))
                 }
                 res.send(attributes)
-            }  
+            }   
         });
-    } else{
-        res.send('Invalid inputs')
     }
 })
 
