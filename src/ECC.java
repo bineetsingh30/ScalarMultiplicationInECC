@@ -155,6 +155,7 @@ public class ECC {
 
 		R.factors[0] = (int) (end - beg);
 		R.factors[1] = noa;
+		R.factors[3] = 1;
 		R.factors[4] = Integer.bitCount(k);
 		return R;
 	}
