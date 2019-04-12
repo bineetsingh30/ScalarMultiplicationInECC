@@ -2,14 +2,11 @@ let express = require('express');
 let app = express();
 let body_parser = require('body-parser');
 
-app.set('view engine', 'ejs');
 app.use(body_parser.urlencoded({extended:true}))
 
-app.get('/home',(req,res)=>{
-    res.render('home.ejs')
-})
+app.use('/', express.static("./public"))
 
-app.post('/api/call_function',(req,res)=>{
+app.post('/api/getdata',(req,res)=>{
     let p = req.body.p;
     let a = req.body.a;
     let b = req.body.b;
@@ -27,28 +24,24 @@ app.post('/api/call_function',(req,res)=>{
             // console.log(result)
 
             //create arrays for each attribute
-            let time = [];
-            let adds = [];
-            let doubles = [];
-            let precomputations = [];
-            let hammingwt = [];
+            let attributes = {}
+            attributes["time"] = [];
+            attributes["adds"] = [];
+            attributes["doubles"] = [];
+            attributes["precomputations"] = [];
+            attributes["hammingwt"] = [];
             
             for(let i = 0; i < result.length - 1; i+=5){
-                time.push(result[i])
-                adds.push(result[i+1])
-                doubles.push(result[i+2])
-                precomputations.push(result[i+3])
-                hammingwt.push(result[i+4])
+                attributes["time"].push(parseInt(result[i]))
+                attributes["adds"].push(parseInt(result[i+1]))
+                attributes["doubles"].push(parseInt(result[i+2]))
+                attributes["precomputations"].push(parseInt(result[i+3]))
+                attributes["hammingwt"].push(parseInt(result[i+4]))
             }
 
-            console.log(time)
-            console.log(adds)
-            console.log(doubles)
-            console.log(precomputations)
-            console.log(hammingwt)            
+            res.send(attributes)
         }
 
-        //call google api for graph and create a graphs page and return that page
         
     });
 
