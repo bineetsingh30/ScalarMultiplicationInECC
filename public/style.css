@@ -1,5 +1,5 @@
 .ecc_image {
-    width: 50%;
+    width: 65%;
     align-content: center;
     margin-left: 80px
 }
@@ -15,4 +15,14 @@
     margin: 10px 10px 30px 10px;
     text-align: center;
     align-content: center
+}
+
+.chart {
+    width: 1000px;
+    margin: 20px auto;
+}
+
+.chart_heading{
+    text-align: center;
+    display: none;
 }

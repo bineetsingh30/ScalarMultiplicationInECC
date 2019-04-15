@@ -14,13 +14,13 @@
     <body style="background-color: aqua">
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-                <h1 class="display-4">Scalar Multiplication In ECC</h1>
-                <p class="lead">Various Algorithms Used for scalar multiplication in ECC</p>
+                <h1 class="display-4">Scalar Multiplication in ECC</h1>
+                <p class="lead">Various Algorithms used for Scalar Multiplication in ECC</p>
             </div>
         </div>
         <div class="ecc_content">
             <div>
-                <p>Algorithms Used in this project are:</p>
+                <p>Algorithms compared:</p>
                 <ol>
                     <li>Naive Method</li>
                     <li>Binary Left to Right</li>
@@ -32,25 +32,37 @@
                 </ol>
             </div>
             <div>
-                    <img src="elA8D.png" class="ecc_image" alt="...">
+                    <img src="ecc.jpeg" class="ecc_image" alt="...">
+            </div>
+            <div>
+
             </div>
         </div>
-        <div class="ecc_form">
-            <form method="POST" action="/api/getdata" id="dataform">
+        <div class="ecc_form"  id="dataform">
+            <h2>Curve Properties</h2>
+            <form method="POST" action="/api/getdata">
                 <input type="text" placeholder="a" name="a"/><br><br>
                 <input type="text" placeholder="b" name="b"/><br><br>
                 <input type="text" placeholder="p" name="p"/><br><br>
                 <input type="text" placeholder="Px" name="px"/><br><br>
                 <input type="text" placeholder="Py" name="py"/><br><br>
                 <input type="text" placeholder="k" name="k"/><br><br>
-                <input class="btn btn-primary" type="submit" value="Submit">
+                <input class="btn btn-primary" type="submit" value="Compare">
             </form>
-            <div id="time_chart" class="chart"></div>
-            <div id="add_chart" class="chart"></div>
-            <div id="double_chart" class="chart"></div>
-            <div id="precomputation_chart" class="chart"></div>
-            <div id="hammingwt_chart" class="chart"></div>
+            
         </div>
-
+    <br><br><br><br>
+    <div id="chart_div">
+        <h4 class="chart_heading"><i>Time Comparison</i></h4>
+        <div id="time_chart" class="chart"></div>
+        <h4 class="chart_heading"><i>Addition operation Comparison</i></h4>
+        <div id="add_chart" class="chart"></div>
+        <h4 class="chart_heading"><i>Doubling operation Comparison</i></h4>
+        <div id="double_chart" class="chart"></div>
+        <h4 class="chart_heading"><i>Precomputation Comparison</i></h4>
+        <div id="precomputation_chart" class="chart"></div>
+        <h4 class="chart_heading"><i>Hamming Weight Comparison</i></h4>
+        <div id="hammingwt_chart" class="chart"></div>
+    </div>
     </body>
 </html>

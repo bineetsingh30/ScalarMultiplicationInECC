@@ -10,13 +10,13 @@ function validateInputs(p,a,b,k,x,y){
     let eq1  = (x*x*x + a*x + b*1)%p;
     let eq2 = 4*a*a*a + 27*b*b;
     let eq3 = (y*y)%p;
-    console.log(eq1+"   "+eq2+" "+eq3)
+    // console.log(eq1+"   "+eq2+" "+eq3)
     if(eq2){
-        console.log("1")
+        // console.log("1")
         if(eq3==eq1){
-            console.log("1")
+            // console.log("1")
             if(x<p && y<p){
-                console.log("1")
+                // console.log("1")
                 return 1;
             }else{
                 return 0;
@@ -37,7 +37,7 @@ app.post('/api/getdata',(req,res)=>{
     let x = req.body.px;
     let y = req.body.py;
     let v = validateInputs(p,a,b,k,x,y);
-    console.log(v)
+    // console.log(v)
     if(v){
         const cmd=require('node-cmd');
         cmd.get(`java -cp "${__dirname}/bin/" ECC ${a} ${b} ${p} ${k} ${x} ${y}`, (err, data, strderr) => {

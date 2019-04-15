@@ -1,10 +1,11 @@
 $(function(){
     $('#dataform').ajaxForm(function(result){
         $('#dataform').hide()
-
+        
+        
         google.charts.load('current', {packages: ['corechart', 'bar']});
         google.charts.setOnLoadCallback(drawMultSeries);
-
+        
         function drawMultSeries() {
             //time graph
             var data = google.visualization.arrayToDataTable([
@@ -135,6 +136,9 @@ $(function(){
         
               var hammingwt_chart = new google.visualization.BarChart(document.getElementById('hammingwt_chart'));
               hammingwt_chart.draw(data, options);
+
+              $('.chart_heading').show()
+        
           }
     })
 })
